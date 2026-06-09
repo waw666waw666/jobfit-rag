@@ -186,3 +186,4 @@ Step "secret scan" {
 }
 
 Write-Host "PASS smoke"
+exit 0
