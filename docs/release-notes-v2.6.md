@@ -1,4 +1,4 @@
-# JobFit RAG v0.5.0 Release Notes
+# JobFit RAG v2.6 Release Notes
 
 ## Status
 
@@ -55,4 +55,4 @@ This release does not claim:
 - Branch: `codex/jobfit-rag-finish`
 - Last known base commit before this release-readiness update: `d5dcb90 chore: complete local delivery gates`
 - No git remote is configured locally.
-- Release tag: `v0.5.0`.
+- Release candidate: `v2.6`; no `v2.6` tag has been created yet.
