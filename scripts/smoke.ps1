@@ -6,6 +6,7 @@ param(
 $ErrorActionPreference = "Stop"
 $repo = Split-Path -Parent $PSScriptRoot
 $secretPattern = "sk-[A-Za-z0-9_-]{20,}|OPENAI_API_KEY=[A-Za-z0-9_-]{8,}|Authorization:[[:space:]]*Bearer[[:space:]]+[A-Za-z0-9._-]{20,}"
+$powerShellExe = (Get-Process -Id $PID).Path
 
 function Get-SafeErrorMessage {
   param([object]$ErrorRecord)
@@ -91,7 +92,7 @@ Step "frontend production build" {
 }
 
 Step "accessibility" {
-  Invoke-Checked { powershell -ExecutionPolicy Bypass -File (Join-Path $repo "scripts/check-accessibility.ps1") }
+  Invoke-Checked { & $powerShellExe -ExecutionPolicy Bypass -File (Join-Path $repo "scripts/check-accessibility.ps1") }
 }
 
 Step "compose services" {
@@ -142,27 +143,27 @@ Step "analyze api" {
 }
 
 Step "resume matrix" {
-  Invoke-Checked { powershell -ExecutionPolicy Bypass -File (Join-Path $repo "scripts/check-resume-matrix.ps1") -BackendUrl $BackendUrl }
+  Invoke-Checked { & $powerShellExe -ExecutionPolicy Bypass -File (Join-Path $repo "scripts/check-resume-matrix.ps1") -BackendUrl $BackendUrl }
 }
 
 Step "evaluation fixtures" {
-  Invoke-Checked { powershell -ExecutionPolicy Bypass -File (Join-Path $repo "scripts/evaluate-fixtures.ps1") -BackendUrl $BackendUrl }
+  Invoke-Checked { & $powerShellExe -ExecutionPolicy Bypass -File (Join-Path $repo "scripts/evaluate-fixtures.ps1") -BackendUrl $BackendUrl }
 }
 
 Step "markdown quality" {
-  Invoke-Checked { powershell -ExecutionPolicy Bypass -File (Join-Path $repo "scripts/check-markdown-quality.ps1") -BackendUrl $BackendUrl }
+  Invoke-Checked { & $powerShellExe -ExecutionPolicy Bypass -File (Join-Path $repo "scripts/check-markdown-quality.ps1") -BackendUrl $BackendUrl }
 }
 
 Step "api contract" {
-  Invoke-Checked { powershell -ExecutionPolicy Bypass -File (Join-Path $repo "scripts/check-api-contract.ps1") -BackendUrl $BackendUrl }
+  Invoke-Checked { & $powerShellExe -ExecutionPolicy Bypass -File (Join-Path $repo "scripts/check-api-contract.ps1") -BackendUrl $BackendUrl }
 }
 
 Step "data integrity" {
-  Invoke-Checked { powershell -ExecutionPolicy Bypass -File (Join-Path $repo "scripts/check-data-integrity.ps1") -BackendUrl $BackendUrl }
+  Invoke-Checked { & $powerShellExe -ExecutionPolicy Bypass -File (Join-Path $repo "scripts/check-data-integrity.ps1") -BackendUrl $BackendUrl }
 }
 
 Step "negative paths" {
-  Invoke-Checked { powershell -ExecutionPolicy Bypass -File (Join-Path $repo "scripts/check-negative-paths.ps1") -BackendUrl $BackendUrl }
+  Invoke-Checked { & $powerShellExe -ExecutionPolicy Bypass -File (Join-Path $repo "scripts/check-negative-paths.ps1") -BackendUrl $BackendUrl }
 }
 
 Step "secret scan" {
