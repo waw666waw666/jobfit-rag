@@ -1,0 +1,47 @@
+name: Smoke
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  docker-smoke:
+    name: Docker smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Show Docker versions
+        run: |
+          docker --version
+          docker compose version
+
+      - name: Ensure ripgrep for secret scan
+        run: |
+          if ! command -v rg >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y ripgrep
+          fi
+
+      - name: Reset demo data
+        shell: pwsh
+        run: ./scripts/reset-demo.ps1 -NoBackup
+
+      - name: Run smoke checks
+        shell: pwsh
+        run: ./scripts/smoke.ps1
+
+      - name: Show running services
+        if: always()
+        run: docker compose ps
+
+      - name: Stop services
+        if: always()
+        run: docker compose down

@@ -1,0 +1,12 @@
+Jane Doe
+jane@example.com
+
+Summary
+AI application developer building local-first tools.
+
+Skills
+React, TypeScript, FastAPI, Docker, SQLite, RAG, embeddings
+
+Projects
+Built a Dockerized resume/JD analyzer using FastAPI, React, evidence matching, and Markdown export for 2-minute job-fit reviews.
+Designed SQLite report history and bilingual Markdown export for repeatable job-search workflows.

@@ -1,0 +1,72 @@
+{
+  "version": "jobfit-rag-evaluation-v1",
+  "description": "Stable resume/JD fixtures for checking deterministic analyzer behavior.",
+  "cases": [
+    {
+      "id": "strong-ai-application",
+      "description": "Strong local-first AI app profile with broad JD overlap.",
+      "resume_text": "Jane jane@example.com Summary AI application developer focused on local-first tools. Skills React TypeScript Docker FastAPI RAG SQL Testing Projects Built a Dockerized React FastAPI RAG analyzer with SQL persistence and pytest coverage that reduced resume review time by 35%.",
+      "jd_text": "Need React TypeScript Docker FastAPI RAG SQL Testing and clear product thinking.",
+      "expect": {
+        "min_score": 75,
+        "max_score": 100,
+        "matched_skills": ["React", "TypeScript", "Docker", "FastAPI", "RAG", "SQL", "Testing"],
+        "missing_skills": [],
+        "api_mode": "local_fallback",
+        "min_readiness_score": 70,
+        "min_action_items": 0,
+        "required_sections": ["portfolio_export", "interview_pack", "evidence_trace"]
+      }
+    },
+    {
+      "id": "proof-gap-ai-application",
+      "description": "Partial AI app profile with missing proof for SQL and Testing.",
+      "resume_text": "Jane jane@example.com Summary AI application developer using React and RAG. Projects Built a React job-fit analyzer that reduced resume review time by 35%. Worked on dashboards.",
+      "jd_text": "Need React RAG SQL Testing and clear proof artifacts.",
+      "expect": {
+        "min_score": 35,
+        "max_score": 75,
+        "matched_skills": ["React", "RAG"],
+        "missing_skills": ["SQL", "Testing"],
+        "api_mode": "local_fallback",
+        "min_readiness_score": 10,
+        "min_action_items": 2,
+        "required_action_sources": ["proof_plan", "readiness"],
+        "required_sections": ["portfolio_export", "interview_pack", "evidence_trace", "proof_plan", "action_board"]
+      }
+    },
+    {
+      "id": "frontend-transfer",
+      "description": "Frontend profile that should match frontend/devops skills while exposing AI/backend gaps.",
+      "resume_text": "Jane jane@example.com Summary Frontend developer focused on React and TypeScript dashboards. Skills React TypeScript Docker REST API SQLite testing Experience Built a local-first dashboard that reduced manual weekly reporting time by 35%.",
+      "jd_text": "AI Application Developer role requires React, TypeScript, FastAPI, Docker, RAG, embeddings, vector search, SQL, testing, and measurable product impact.",
+      "expect": {
+        "min_score": 40,
+        "max_score": 80,
+        "matched_skills": ["React", "TypeScript", "Docker", "Testing"],
+        "missing_skills": ["FastAPI", "RAG", "Embedding", "Vector Search", "SQL"],
+        "api_mode": "local_fallback",
+        "min_readiness_score": 10,
+        "min_action_items": 3,
+        "required_sections": ["portfolio_export", "interview_pack", "evidence_trace", "proof_plan", "action_board"]
+      }
+    },
+    {
+      "id": "zh-ai-application-proof-gap",
+      "description": "Chinese resume/JD fixture that validates conservative Chinese aliases and proof planning.",
+      "resume_text": "张三 zhangsan@example.com\n简介\nAI 应用开发者。\n技能\n检索增强生成、向量化表示、容器化部署、接口集成。\n项目\n负责一个本地优先求职分析工具，提升简历复盘效率 35%。",
+      "jd_text": "岗位要求\n熟悉检索增强生成、向量化表示、向量检索、容器化部署、自动化测试、接口设计和 SQL。",
+      "expect": {
+        "min_score": 45,
+        "max_score": 70,
+        "matched_skills": ["Docker", "Embedding", "RAG", "REST API"],
+        "missing_skills": ["SQL", "Testing", "Vector Search"],
+        "api_mode": "local_fallback",
+        "min_readiness_score": 1,
+        "min_action_items": 3,
+        "required_action_sources": ["proof_plan", "readiness"],
+        "required_sections": ["portfolio_export", "interview_pack", "evidence_trace", "proof_plan", "action_board"]
+      }
+    }
+  ]
+}
