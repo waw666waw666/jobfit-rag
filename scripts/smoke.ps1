@@ -36,12 +36,20 @@ function Invoke-Checked {
   param(
     [scriptblock]$Command
   )
-  $output = & $Command 2>&1
-  $exitCode = $LASTEXITCODE
+  $previousErrorActionPreference = $ErrorActionPreference
+  $ErrorActionPreference = "Continue"
+  try {
+    $output = & $Command 2>&1
+    $exitCode = $LASTEXITCODE
+  } finally {
+    $ErrorActionPreference = $previousErrorActionPreference
+  }
   if ($exitCode -ne 0) {
     throw "Command failed with exit code $exitCode. Output redacted."
   }
-  $output | Out-Host
+  foreach ($line in $output) {
+    Write-Host "$line"
+  }
 }
 
 function Retry {

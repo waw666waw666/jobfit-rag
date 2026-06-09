@@ -19,7 +19,7 @@ function Invoke-Api {
     [string]$Path,
     [string]$Method = "GET",
     [string]$Body = "",
-    [string]$ContentType = "application/json"
+    [string]$ContentType = "application/json; charset=utf-8"
   )
 
   try {
@@ -71,7 +71,7 @@ if (-not (Test-Path $FixturePath)) {
   Fail "Fixture file not found: $FixturePath"
 }
 
-$bundle = Get-Content -LiteralPath $FixturePath -Raw | ConvertFrom-Json
+$bundle = Get-Content -LiteralPath $FixturePath -Raw -Encoding UTF8 | ConvertFrom-Json
 if ($bundle.version -ne "jobfit-rag-evaluation-v1") {
   Fail "Unexpected fixture version: $($bundle.version)"
 }
@@ -83,7 +83,7 @@ foreach ($case in $bundle.cases) {
     jd_text = $case.jd_text
   } | ConvertTo-Json
 
-  $report = Invoke-Api -Path "/api/analyze" -Method Post -Body $body -ContentType "application/json"
+  $report = Invoke-Api -Path "/api/analyze" -Method Post -Body $body
   $expect = $case.expect
 
   if ($report.overall_score -lt $expect.min_score -or $report.overall_score -gt $expect.max_score) {

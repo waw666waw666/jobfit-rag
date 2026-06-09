@@ -4,7 +4,7 @@ This is the current working-state handoff for JobFit RAG.
 
 ## Current status
 
-JobFit RAG is a local-first AI job-fit demo app with a React/Vite frontend and FastAPI backend. It is hardened enough for local demo work when `verify-local.ps1` passes.
+JobFit RAG is a local-first AI job-fit demo app with a React/Vite frontend and FastAPI backend. It is hardened enough for local demo/share work when the full Docker smoke gate passes; `verify-local.ps1` remains the fast Docker-free fallback.
 
 Default product boundary remains:
 
@@ -47,7 +47,8 @@ Frontend:
 Scripts and docs:
 
 - `scripts/verify-local.ps1` is the Docker-free local green gate. Child-command output is hidden by default, and failed child-command output is redacted while preserving exit codes.
-- `scripts/smoke.ps1` no longer prints fake PASS for failed native commands, redacts failed child-script output, and redacts secret scan matches.
+- `scripts/smoke.ps1` no longer prints fake PASS for failed native commands, redacts failed child-script output, redacts secret scan matches, and replays captured Docker progress as plain text instead of PowerShell error records.
+- `scripts/evaluate-fixtures.ps1` reads fixture JSON as UTF-8 and posts JSON with UTF-8 charset so Chinese evaluation fixtures work on Windows PowerShell.
 - API-facing verification scripts redact HTTP response bodies and private assertion values in failure output where those values may be derived from resume/JD content.
 - `scripts/run-frontend-local.ps1` starts Vite with a selected backend URL.
 - `scripts/test-backend-local.ps1` fails clearly if pytest is unavailable.
@@ -122,7 +123,8 @@ Full Docker smoke when Docker daemon is available:
 
 ## Known blockers
 
-- Docker daemon is currently unavailable, so Docker build/run/up/smoke is blocked.
+- No current Docker blocker. Docker daemon was available and full `scripts/smoke.ps1` passed on 2026-06-09.
+- No git remote is configured.
 - `jobfit-rag` is an independent local git repository on branch `codex/jobfit-rag-finish`; the root repository excludes it locally through `.git/info/exclude`.
 
 ## Safe next work
